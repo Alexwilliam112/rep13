@@ -1,0 +1,14 @@
+{
+  "name": "alex_graded3",
+  "version": "1.0.0",
+  "description": "hacktiv8 phase 1 graded challenge-3",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "pg": "^8.11.5"
+  }
+}

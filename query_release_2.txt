@@ -1,0 +1,158 @@
+Part 1 Release 2
+
+1. menu with category name
+
+SELECT 
+	*
+FROM
+	"Menus"
+JOIN
+	"Categories"
+ON
+	"Categories".id = "Menus"."CategoryId";
+
+2. menu with category of Tea
+
+SELECT 
+	*
+FROM
+	"Menus"
+JOIN
+	"Categories"
+ON
+	"Categories".id = "Menus"."CategoryId"
+WHERE
+	"Categories"."name" = 'Tea';
+
+3. menu with highest stock in category Toast
+
+SELECT 
+    *
+FROM 
+    "Menus"
+JOIN
+    "Categories"
+ON
+    "Menus"."CategoryId" = "Categories"."id"
+WHERE 
+    "Categories"."name" = 'Toast'
+AND
+    "Menus"."stock" = (
+        SELECT
+			MAX("Menus"."stock") 
+        FROM
+			"Menus" 
+        JOIN
+			"Categories" 
+        ON
+			"Menus"."CategoryId" = "Categories"."id" 
+        WHERE
+			"Categories"."name" = 'Toast'
+    );
+
+4. Menu with name : highest price
+
+SELECT
+	"Categories"."id" AS "CategoryId",
+	"Categories"."name",
+	"Menus"."id",
+	"Menus"."name",
+	"Menus"."price"
+FROM "Categories"
+JOIN (
+    SELECT
+    	"CategoryId",
+    	MAX("price") AS "maxPrice"
+    FROM
+    	"Menus"
+    GROUP BY
+    	"CategoryId"
+) AS "HighestTable"
+ON
+	"Categories"."id" = "HighestTable"."CategoryId"
+JOIN
+	"Menus"
+ON
+	"HighestTable"."CategoryId" = "Menus"."CategoryId"
+AND
+	"HighestTable"."maxPrice" = "Menus"."price";
+
+5. average price of menus in category: espresso
+
+SELECT
+	*
+FROM
+	"Categories"
+JOIN (
+	SELECT
+		"CategoryId",
+		AVG("Menus"."price")
+	AS 
+		"avgPrice"
+	FROM
+		"Menus"
+	GROUP BY
+		"CategoryId"
+) AS "AvgTable"
+ON
+	"Categories"."id" = "AvgTable"."CategoryId"
+AND 
+	"AvgTable"."CategoryId" = '1'
+GROUP BY 
+	"Categories"."id",
+	"AvgTable"."CategoryId",
+	"AvgTable"."avgPrice"
+
+6. totalStock from menus in category: Tea
+
+SELECT
+	*
+FROM
+	"Categories"
+JOIN (
+	SELECT
+		"CategoryId",
+		SUM("Menus"."stock")
+	AS 
+		"totalStock"
+	FROM
+		"Menus"
+	GROUP BY
+		"CategoryId"
+) AS "SumTable"
+ON
+	"Categories"."id" = "SumTable"."CategoryId"
+AND 
+	"SumTable"."CategoryId" = '3'
+GROUP BY 
+	"Categories"."id",
+	"SumTable"."CategoryId",
+	"SumTable"."totalStock"
+
+7. totalStock of menus createdAt : MONTH = AUG
+
+SELECT
+	*
+FROM
+	"Categories"
+JOIN (
+	SELECT
+		"CategoryId",
+		SUM("Menus"."stock")
+	AS 
+		"totalStock"
+	FROM
+		"Menus"
+	WHERE 
+		EXTRACT(MONTH FROM "Menus"."createdAt") = 8
+	GROUP BY
+		"CategoryId"
+) AS "SumTable"
+ON
+	"Categories"."id" = "SumTable"."CategoryId"
+AND 
+	"SumTable"."CategoryId" = '1'
+GROUP BY 
+	"Categories"."id",
+	"SumTable"."CategoryId",
+	"SumTable"."totalStock"

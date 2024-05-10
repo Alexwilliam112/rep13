@@ -1,0 +1,88 @@
+Part 1 Release 1
+
+1.
+2. create table
+CREATE TABLE IF NOT EXISTS "Categories" (
+	"id" SERIAL PRIMARY KEY NOT NULL,
+	"name" VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS "Menus" (
+	"id" SERIAL PRIMARY KEY NOT NULL,
+	"name" VARCHAR NOT NULL,
+	"stock" INTEGER NOT NULL,
+	"price" INTEGER NOT NULL,
+	"createdAt" DATE NOT NULL,
+	"CategoryId" INTEGER NOT NULL,
+		FOREIGN KEY ("CategoryId") REFERENCES "Categories" ("id")
+);
+
+3. query insert, select, update, delete
+INSERT INTO "Categories" ("name")
+VALUES
+	('category new 1');
+
+UPDATE "Categories" 
+SET "name" = 'renaming category'
+WHERE "id" = 9;
+
+DELETE FROM "Categories" 
+WHERE "id" = 9;
+
+SELECT * FROM "Categories";
+
+INSERT INTO "Menus" ("name", "stock", "price", "createdAt", "CategoryId")
+VALUES
+	('menu item 1', '1200', '21201020', '2024-04-04', '6');
+
+UPDATE "Menus" 
+SET "name" = 'renaming menu new'
+WHERE "id" = 23;
+
+DELETE FROM "Menus" 
+WHERE "id" = 23;
+
+SELECT * FROM "Menus";
+
+4. query insert
+INSERT INTO "Categories" ("name")
+VALUES
+	('Espresso'),
+	('Chocolate'),
+	('Tea'),
+	('Coffee'),
+	('Cream'),
+	('Juice'),
+	('Toast'),
+	('Other');
+	
+INSERT INTO "Menus" ("name", "stock", "price", "createdAt", "CategoryId")
+VALUES
+	('Americano', '86', '34000', '2021-08-03', '1'),
+	('Caramel Macchiato', '78', '57000', '2021-08-03', '1'),
+	('Cappucino', '56', '44000', '2021-03-03', '1'),
+	('Hot Chocolate', '67', '5000', '2021-03-03', '2'),
+	('Coffee', '95', '39000', '2021-03-03', '3'),
+	('Caramel Java Chip', '75', '53000', '2021-03-03', '3'),
+	('Mocha', '75', '48000', '2021-06-03', '3'),
+	('Asian Dolce', '73', '48000', '2021-06-03', '3'),
+	('Lemon Tea', '67', '22000', '2021-03-03', '4'),
+	('Green Tea', '46', '22000', '2021-03-03', '4'),
+	('Vanilla Cream', '57', '46000', '2021-03-03', '5'),
+	('Chocolate Chip Cream', '56', '53000', '2021-03-03', '5'),
+	('Green Tea Cream', '68', '53000', '2021-07-03', '5'),
+	('Mango Juice', '67', '39000', '2021-07-03', '6'),
+	('Guava Juice', '85', '39000', '2021-07-03', '6'),
+	('Strawberry Juice', '34', '39000', '2021-07-03', '6'),
+	('Crispy Chicken Toast', '53', '32000', '2021-03-03', '7'),
+	('Spicy Bulgogi Toast', '34', '32000', '2021-03-03', '7'),
+	('Egg and Cheese Toast', '53', '22000', '2021-03-03', '7'),
+	('Cireng', '44', '22000', '2021-03-03', '8'),
+	('Bakwan', '45', '22000', '2021-03-03', '8'),
+	('Risol', '47', '25000', '2021-03-03', '8');
+
+5. Drop all tables
+
+DROP TABLE IF EXISTS "Categories" CASCADE
+
+DROP TABLE IF EXISTS "Menus" CASCADE
